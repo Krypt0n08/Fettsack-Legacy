@@ -14,6 +14,8 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread gameThread;
     private boolean running = false;
 
+    private MusicPlayer musicPlayer = new MusicPlayer();
+
     private Player player;
     private ArrayList<GameObject> objects = new ArrayList<>();
     private Random random = new Random();
@@ -37,6 +39,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void initGame() {
         player = new Player(WIDTH / 2, HEIGHT / 2);
         objects.add(player);
+        musicPlayer.playLoop("/game/assets/gameMusic.wav");
 
         for (int i = 0; i < 5; i++) {
             spawnFood();
@@ -76,20 +79,21 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         objects.removeIf(GameObject::isMarkedForRemoval);
-        
+
         objects.addAll(objectsToAdd);
         objectsToAdd.clear();
     }
 
 
     public void spawnFood() {
-        objectsToAdd.add(
-                new Food(random.nextInt(WIDTH), random.nextInt(HEIGHT))
-        );
+        objectsToAdd.add(new Food(random.nextInt(WIDTH), random.nextInt(HEIGHT),"/game/assets/Food1.png"));
+        objectsToAdd.add(new Food(random.nextInt(WIDTH), random.nextInt(HEIGHT),"/game/assets/Food2.png"));
+        objectsToAdd.add(new Food(random.nextInt(WIDTH), random.nextInt(HEIGHT),"/game/assets/Food3.png"));
     }
 
     public void spawnVegetable() {
-        objects.add(new Vegetable(random.nextInt(WIDTH), random.nextInt(HEIGHT)));
+        objects.add(new Vegetable(random.nextInt(WIDTH), random.nextInt(HEIGHT), "/game/assets/Vegetable1.png"));
+        objects.add(new Vegetable(random.nextInt(WIDTH), random.nextInt(HEIGHT), "/game/assets/Vegetable2.png"));
     }
 
     @Override
